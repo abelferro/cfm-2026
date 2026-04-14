@@ -4,17 +4,12 @@ import { motion } from "motion/react";
 import type { ReactNode } from "react";
 import {
   ArrowRight,
-  Award,
   BadgeCheck,
   BarChart3,
-  Briefcase,
   Building2,
-  Database,
   GraduationCap,
   Mail,
   Phone,
-  Sparkles,
-  Wallet,
 } from "lucide-react";
 import MauticContactForm from "@/components/MauticContactForm";
 
@@ -34,7 +29,7 @@ const featureList = [
   {
     icon: Building2,
     title: "Workforce Development",
-    description: "Empower educators and organizations.",
+    description: "Empower educators and organizations",
   },
   {
     icon: GraduationCap,
@@ -42,19 +37,14 @@ const featureList = [
     description: "Track progress. Unlock potential.",
   },
   {
-    icon: Wallet,
-    title: "Professional Development",
-    description: "Manage scholarship applications.",
-  },
-  {
     icon: BadgeCheck,
     title: "Badges",
-    description: "Recognize quality in early childhood education.",
+    description: "Recognize quality in early childhood education",
   },
   {
     icon: BarChart3,
     title: "Data-Driven Insights",
-    description: "Make smarter decisions. Improve outcomes for children.",
+    description: "Make smarter decisions. Improve outcomes for children",
   },
 ];
 
@@ -140,16 +130,8 @@ export default function LandingPage() {
           </h1>
 
           <p className="mt-6 max-w-2xl text-xl leading-8 text-slate-700">
-            WELS is a unified system that connects training, credentials,
-            incentives, and reporting so educators feel supported and children
-            can thrive.
-          </p>
-
-          <p className="mt-5 max-w-2xl text-base leading-8 text-slate-600">
-            This version follows your CFM direction: no rainbow treatment, a
-            pink-led visual system, a stronger professional development message,
-            and badges positioned as a recognition layer for quality in early
-            childhood education.
+            WELS, a unified system that connects training, credentials, and
+            incentives to support educators and improve outcomes for children.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-4">
@@ -201,6 +183,41 @@ export default function LandingPage() {
 
             <div className="relative grid gap-4 md:grid-cols-2">
               <div className="mock-card md:translate-y-20">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-black text-brand-ink">
+                    Participation
+                  </p>
+                  <span className="rounded-full bg-brand-soft px-3 py-1 text-xs font-bold text-brand-plum">
+                    This Year
+                  </span>
+                </div>
+                <div className="mt-5 flex items-end gap-3">
+                  <div className="grid h-24 w-24 place-items-center rounded-full border-[18px] border-brand-yellow border-r-brand-pink border-b-brand-blue bg-white text-2xl font-black text-brand-ink">
+                    72%
+                  </div>
+                  <div className="flex flex-1 items-end justify-end gap-3 pb-1">
+                    <div className="h-9 w-4 rounded-full bg-brand-lime/90" />
+                    <div className="h-14 w-4 rounded-full bg-brand-yellow" />
+                    <div className="h-11 w-4 rounded-full bg-brand-pink/80" />
+                    <div className="h-16 w-4 rounded-full bg-brand-blue/85" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="mock-card md:ml-6">
+                <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-brand-blue">
+                  Training
+                </p>
+                <p className="mt-3 text-sm leading-6 text-slate-600">
+                  Strengthening Instruction
+                  <br />& Leadership
+                </p>
+                <div className="mt-5 h-3 rounded-full bg-brand-soft">
+                  <div className="h-full w-[74%] rounded-full bg-brand-blue" />
+                </div>
+              </div>
+
+              <div className="mock-card md:mr-8">
                 <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-brand-pink">
                   Professional Development
                 </p>
@@ -211,50 +228,30 @@ export default function LandingPage() {
                   Bring requests, status updates, documentation, and approvals
                   into one educator-centered workflow.
                 </p>
-              </div>
-
-              <div className="mock-card md:ml-6">
-                <div className="flex items-center justify-between">
-                  <p className="text-sm font-black text-brand-ink">
-                    Training & Credentials
-                  </p>
-                  <Sparkles size={18} className="text-brand-pink" />
+                <div className="mt-5 h-3 rounded-full bg-brand-soft">
+                  <div className="h-full w-[52%] rounded-full bg-brand-pink" />
                 </div>
-                <div className="mt-5 grid gap-3">
-                  <div className="rounded-2xl bg-brand-soft px-4 py-3 text-sm font-semibold text-brand-ink">
-                    Course completed
-                  </div>
-                  <div className="rounded-2xl bg-brand-soft px-4 py-3 text-sm font-semibold text-brand-ink">
-                    Certificate earned
-                  </div>
-                </div>
-              </div>
-
-              <div className="mock-card md:mr-8">
-                <p className="text-sm font-black text-brand-ink">Badges</p>
-                <h3 className="mt-3 text-2xl font-black text-brand-ink">
-                  Recognize quality in early childhood education
-                </h3>
-                <p className="mt-3 text-sm leading-6 text-slate-600">
-                  Make growth visible with recognizable signals tied to quality
-                  efforts, training, and verified progress.
-                </p>
               </div>
 
               <div className="mock-card md:translate-y-14">
-                <p className="text-sm font-black text-brand-ink">
-                  Data-Driven Insights
-                </p>
-                <div className="mt-5 flex items-end gap-3">
-                  <div className="h-12 w-4 rounded-full bg-brand-soft" />
-                  <div className="h-20 w-4 rounded-full bg-brand-pink/60" />
-                  <div className="h-14 w-4 rounded-full bg-brand-soft" />
-                  <div className="h-24 w-4 rounded-full bg-brand-plum/70" />
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-black text-brand-ink">
+                    Credentials
+                  </p>
+                  <span className="rounded-full bg-brand-soft px-3 py-1 text-xs font-bold text-brand-plum">
+                    View All
+                  </span>
                 </div>
-                <p className="mt-4 text-sm leading-6 text-slate-600">
-                  Track outcomes, spot patterns early, and support better
-                  decisions for educators and children.
-                </p>
+                <div className="mt-5 grid gap-3">
+                  <div className="flex items-center justify-between rounded-2xl bg-lime-100 px-4 py-3 text-sm font-semibold text-brand-ink">
+                    <span>Badge awarded</span>
+                    <span className="text-brand-lime">✓</span>
+                  </div>
+                  <div className="flex items-center justify-between rounded-2xl bg-brand-soft px-4 py-3 text-sm font-semibold text-brand-ink">
+                    <span>Course completed</span>
+                    <span className="text-brand-blue">✓</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -264,7 +261,7 @@ export default function LandingPage() {
       <Section
         kicker="Built on WELS Exchange Hub"
         title="One platform, multiple paths to better outcomes."
-        description="The official WELS experience is built around connected modules that support administrators, providers, agencies, educators, families, quality teams, and data leaders."
+        description="WELS brings workforce development, training, credentials, incentives, and reporting into one connected experience that supports educator growth and stronger outcomes for children."
       >
         <div className="grid gap-6 lg:grid-cols-3">
           {exchangeModules.map((item, index) => (
@@ -298,9 +295,9 @@ export default function LandingPage() {
               Proud event sponsor of the Children&apos;s Foundation of Mississippi.
             </h2>
             <p className="mt-5 text-base leading-8 text-slate-600">
-              This landing translates the CFM Summit message into WELS language:
-              clear growth pathways, recognizable quality signals, and data that
-              helps leaders move from participation to measurable progress.
+              WELS is bringing a clear message to the summit: support educator
+              growth with connected systems for training, credentials, badges,
+              scholarship workflows, and data-informed decisions.
             </p>
           </div>
           <div className="rounded-[30px] bg-brand-plum px-6 py-7 text-white">
@@ -314,9 +311,9 @@ export default function LandingPage() {
               5th Annual CFM Summit 2026
             </p>
             <p className="mt-6 text-base leading-8 text-white/78">
-              WELS brings together professional development, credentials,
-              badges, and reporting so state and regional partners can support
-              the educator workforce with more confidence.
+              WELS helps state and regional partners strengthen the educator
+              workforce with one system built for visibility, progress, and
+              practical action.
             </p>
           </div>
         </motion.div>
