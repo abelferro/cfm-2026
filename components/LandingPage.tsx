@@ -108,22 +108,16 @@ export default function LandingPage() {
             className="h-12 w-auto md:h-14"
           />
         </a>
-        <span className="wels-outline hidden text-sm font-bold text-brand-ink md:inline-flex">
-          Proud event sponsor • CFM Summit 2026
-        </span>
+        <a
+          href="#contact"
+          className="wels-outline hidden text-sm font-bold text-brand-ink md:inline-flex"
+        >
+          Start a conversation
+        </a>
       </header>
 
       <section className="mx-auto grid max-w-7xl gap-12 px-6 pb-18 pt-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
         <motion.div {...reveal()} className="relative z-10">
-          <div className="flex flex-wrap gap-3">
-            <span className="wels-outline bg-white/90 text-xs font-extrabold uppercase tracking-[0.22em] text-brand-pink">
-              WELS Systems Foundation
-            </span>
-            <span className="wels-outline bg-white/90 text-sm font-semibold text-slate-700">
-              Children&apos;s Foundation of Mississippi • 5th Annual Summit
-            </span>
-          </div>
-
           <h1 className="mt-8 max-w-3xl text-5xl font-black leading-[0.98] tracking-tight text-brand-ink md:text-7xl">
             Grow Educators.
             <span className="gradient-text block">Grow Futures.</span>
@@ -417,6 +411,23 @@ export default function LandingPage() {
           </div>
         </motion.div>
       </section>
+
+      <footer className="mx-auto max-w-7xl px-6 pb-16">
+        <motion.div
+          {...reveal()}
+          className="flex flex-wrap items-center justify-center gap-3"
+        >
+          <span className="wels-outline bg-white/90 text-xs font-extrabold uppercase tracking-[0.22em] text-brand-pink">
+            WELS Systems Foundation
+          </span>
+          <span className="wels-outline bg-white/90 text-sm font-semibold text-slate-700">
+            Proud event sponsor • CFM Summit 2026
+          </span>
+          <span className="wels-outline bg-white/90 text-sm font-semibold text-slate-700">
+            Children&apos;s Foundation of Mississippi • 5th Annual Summit
+          </span>
+        </motion.div>
+      </footer>
     </main>
   );
 }
