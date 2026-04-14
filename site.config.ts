@@ -1,17 +1,17 @@
 export const landingConfig = {
   slug: "cfm-2026",
-  siteName: "CFM 2026",
-  brandName: "WELS Foundation",
-  title: "CFM 2026",
+  siteName: "CFM Summit 2026",
+  brandName: "WELS Systems Foundation",
+  title: "CFM Summit 2026",
   description:
-    "Starter cloned from PartnerHub-Landing-Page for the CFM 2026 landing.",
+    "WELS Systems Foundation landing for the CFM Summit 2026, focused on educator growth, professional development, badges, and data-driven support.",
   basePath: "/lp/cfm-2026",
   locale: "en_US",
   keywords: [
-    "WELS Foundation",
-    "CFM 2026",
-    "landing page",
-    "Next.js",
-    "static export",
+    "WELS Systems Foundation",
+    "CFM Summit 2026",
+    "professional development",
+    "early childhood education",
+    "badges",
   ],
 } as const;
