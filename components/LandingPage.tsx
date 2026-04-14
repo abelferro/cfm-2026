@@ -15,6 +15,7 @@ import MauticContactForm from "@/components/MauticContactForm";
 
 const logoUrl =
   "https://tds.bwelz.org/logos/wels/digital/SVG/wels-Horizontal_Logo_RGB_Full_Color.svg?Expires=1881081483&Signature=XZYm8YQbfhBMaBRxh~YRLGK60sm39SHfjqQIx85sg8dJiw3mbBNeRt28fGyUnbgl5DEA31ZQy-lJuBOwYxLa7tFN3JaB3SxBQVHMua6WqRZqfqjAXIE9v9jWCLrV-EBwboXVOdkzk2jdk3NLcOH-kbiU~UWOd7xrUy6jnuyYFc0zZNmQl3LFx-iXo04pfYzjEJ0si68wsLfoyLs~ejS~7K0yvYTEEUYCxZn-6gTWh8FT8PWl6Ni9CJKKxqg5DZlJsOPoS4tuM7xR6E7iCsIAdowDCzfbB~w9CUeZoHTNopzkXrYQfFlmVO00290Baap32us-kz0LIotdxmSBZ-bt7A__&Key-Pair-Id=K1PPZDIOWN47R1";
+const coachingItemUrl = "/images/WELS_Portal_Coaching_Item.png";
 const mikeUrl =
   "https://welsfoundation.org/wp-content/uploads/2022/03/mike-bwelz-360px.jpg";
 
@@ -246,6 +247,15 @@ export default function LandingPage() {
                     <span className="text-brand-blue">✓</span>
                   </div>
                 </div>
+              </div>
+
+              <div className="mock-card border-none bg-transparent p-0 shadow-none md:-mt-12 md:ml-8 md:mr-6 md:translate-y-4">
+                <img
+                  src={coachingItemUrl}
+                  alt="WELS portal coaching item"
+                  className="mx-auto w-full max-w-[280px] drop-shadow-[0_22px_46px_rgba(83,65,141,0.18)]"
+                  loading="lazy"
+                />
               </div>
             </div>
           </div>
