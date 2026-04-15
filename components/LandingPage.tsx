@@ -168,48 +168,48 @@ export default function LandingPage() {
         </motion.div>
       </section>
 
-      <section id="features" className="mx-auto max-w-6xl px-6 pb-10 pt-4 md:pb-16">
+      <section id="features" className="mx-auto max-w-5xl px-6 pb-8 pt-2 md:pb-12">
         <motion.div
           {...reveal()}
-          className="mb-7 flex flex-col gap-4 md:mb-8 md:flex-row md:items-end md:justify-between"
+          className="mb-5 flex flex-col gap-3 md:mb-6 md:flex-row md:items-end md:justify-between"
         >
-          <div className="max-w-2xl">
+          <div className="max-w-xl">
             <p className="section-kicker">Core Capabilities</p>
-            <h2 className="mt-3 text-3xl font-bold tracking-tight text-brand-ink md:text-4xl">
+            <h2 className="mt-2 text-2xl font-bold tracking-tight text-brand-ink md:text-[2rem]">
               Four ways WELS supports educator growth.
             </h2>
-            <p className="mt-3 text-base leading-7 text-slate-600">
+            <p className="mt-2 text-sm leading-6 text-slate-600 md:text-base">
               A quick view of the connected capabilities behind the platform.
             </p>
           </div>
 
-          <div className="wels-outline w-fit bg-white/80 text-xs font-bold uppercase tracking-[0.18em] text-brand-pink">
+          <div className="wels-outline w-fit bg-white/80 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.16em] text-brand-pink">
             4 connected focus areas
           </div>
         </motion.div>
 
-        <div className="grid gap-4">
+        <div className="grid gap-3">
           {featureList.map(({ icon: Icon, title, description }, index) => (
             <motion.article
               key={title}
               {...reveal(index * 0.05)}
               {...cardMotion}
-              className="wels-card interactive-panel relative overflow-hidden grid grid-cols-[auto_1fr] items-center gap-4 px-5 py-5 md:gap-6 md:px-7 md:py-6"
+              className="wels-card interactive-panel relative overflow-hidden grid grid-cols-[auto_1fr] items-center gap-3 px-4 py-4 md:gap-5 md:px-5 md:py-4.5"
             >
-              <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-[radial-gradient(circle_at_right,rgba(235,77,143,0.08),transparent_68%)] md:w-32" />
+              <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-[radial-gradient(circle_at_right,rgba(235,77,143,0.08),transparent_68%)] md:w-24" />
 
-              <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-[24px] bg-brand-soft text-brand-pink md:h-24 md:w-24 md:rounded-[28px]">
-                <Icon size={32} />
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[20px] bg-brand-soft text-brand-pink md:h-18 md:w-18 md:rounded-[22px]">
+                <Icon size={26} />
               </div>
 
               <div className="relative min-w-0">
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand-pink">
+                <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-brand-pink md:text-xs">
                   0{index + 1}
                 </p>
-                <h2 className="mt-2 text-2xl font-bold leading-tight tracking-tight text-brand-ink md:text-[2.4rem]">
+                <h2 className="mt-1 text-xl font-bold leading-tight tracking-tight text-brand-ink md:text-[1.9rem]">
                   {title}
                 </h2>
-                <p className="mt-2 text-base leading-7 text-slate-700 md:text-[1.9rem] md:leading-[1.2]">
+                <p className="mt-1 text-sm leading-6 text-slate-700 md:text-[1.15rem] md:leading-[1.35]">
                   {description}
                 </p>
               </div>
