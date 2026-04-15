@@ -1,13 +1,28 @@
 "use client";
 
-import { CheckCircle2, ChevronDown, ChevronLeft, X } from "lucide-react";
+import {
+  BadgeCheck,
+  BarChart3,
+  CalendarDays,
+  Check,
+  ChevronDown,
+  ChevronLeft,
+  CircleHelp,
+  GraduationCap,
+  Handshake,
+  Phone,
+  UserRound,
+  Users,
+  Wallet,
+  X,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 type ContactFormProps = {
   formKicker: string;
   formTitle: string;
-  successKicker: string;
   successTitle: string;
   successMessage: string;
 };
@@ -24,10 +39,22 @@ type FormState = {
 };
 
 type FieldKey = keyof FormState;
+type StepNumber = 1 | 2 | 3;
+
+type InterestOption = {
+  value: string;
+  label: string;
+  description: string;
+  icon: LucideIcon;
+};
 
 const FORM_ACTION = "https://marketing.bwelz.org/form/submit?formId=12";
 const MAUTIC_SCRIPT =
   "https://marketing.bwelz.org/media/js/mautic-form.js?vf43116e0";
+const mikeUrl =
+  "https://welsfoundation.org/wp-content/uploads/2022/03/mike-bwelz-360px.jpg";
+const buttonGradient =
+  "linear-gradient(90deg, var(--color-brand-plum, #7a5fc3) 0%, var(--color-brand-pink, #eb4d8f) 50%, var(--color-brand-plum, #7a5fc3) 100%)";
 
 const initialState: FormState = {
   first_name: "",
@@ -40,51 +67,62 @@ const initialState: FormState = {
   f_message: "",
 };
 
-const interestOptions = [
+const stepSequence: StepNumber[] = [1, 2, 3];
+
+const interestOptions: InterestOption[] = [
   {
     value: "schedule-demo",
     label: "Schedule a demo",
     description: "See the platform in action with a guided WELS walkthrough.",
+    icon: CalendarDays,
   },
   {
     value: "professional-portal",
     label: "Professional Portal",
     description: "Manage educator records, workforce data, and next steps.",
+    icon: UserRound,
   },
   {
     value: "workforce-development",
     label: "Workforce Development",
     description: "Support educator growth across systems, roles, and programs.",
+    icon: Users,
   },
   {
     value: "training-credentials",
     label: "Training & Credentials",
     description: "Track learning, coursework, certificates, and completions.",
+    icon: GraduationCap,
   },
   {
     value: "scholarships-incentives",
     label: "Scholarships / Incentives",
     description: "Connect funding, supports, and educator advancement.",
+    icon: Wallet,
   },
   {
     value: "badges-quality-recognition",
     label: "Badges / Quality Recognition",
     description: "Make quality efforts visible through recognition markers.",
+    icon: BadgeCheck,
   },
   {
     value: "data-reporting",
     label: "Data & Reporting",
     description: "Turn collected information into practical reporting insight.",
+    icon: BarChart3,
   },
   {
     value: "partnership-opportunities",
     label: "Partnership Opportunities",
     description: "Explore collaboration, implementation, and ecosystem support.",
+    icon: Handshake,
   },
   {
     value: "general-information",
     label: "General Information",
     description: "Start the conversation if you are still exploring options.",
+    icon: CircleHelp,
   },
 ];
 
@@ -101,45 +139,41 @@ const roleOptions = [
 
 const stepContent = {
   1: {
-    title: "Tell us about you.",
-    helper: "We use this to personalize the conversation.",
+    label: "About you",
+    helper: "Step 1 of 3 • A quick intro so we know where to start.",
   },
   2: {
-    title: "Tell us about your organization.",
-    helper: "This helps us route you to the right WELS conversation.",
+    label: "Your team",
+    helper: "Step 2 of 3 • Help us route you to the right WELS conversation.",
   },
   3: {
-    title: "What can WELS help you with?",
-    helper: "Choose one or more interests and add any extra context.",
+    label: "Your goals",
+    helper: "Step 3 of 3 • Choose your interests and add context if helpful.",
   },
 } as const;
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+function RequiredDot() {
+  return <span aria-hidden="true" className="ml-1 text-brand-pink">*</span>;
+}
+
 export default function MauticContactForm({
   formKicker,
   formTitle,
-  successKicker,
   successTitle,
   successMessage,
 }: ContactFormProps) {
-  const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(1);
+  const [currentStep, setCurrentStep] = useState<StepNumber>(1);
   const [formData, setFormData] = useState<FormState>(initialState);
   const [errors, setErrors] = useState<Partial<Record<FieldKey, string>>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionError, setSubmissionError] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
-
-  const accentColor = useMemo(
-    () => "var(--color-brand-plum, var(--color-brand-pink, #7a5fc3))",
-    [],
-  );
-
-  const accentGradient = useMemo(
-    () =>
-      "linear-gradient(90deg, var(--color-brand-plum, #7a5fc3) 0%, var(--color-brand-pink, #eb4d8f) 100%)",
-    [],
-  );
+  const [showMessageField, setShowMessageField] = useState(false);
+  const progressRatio = currentStep === 1 ? 0 : currentStep === 2 ? 0.5 : 1;
+  const selectedRoleLabel =
+    roleOptions.find((option) => option.value === formData.role)?.label ?? "";
 
   useEffect(() => {
     const win = window as Window & {
@@ -195,7 +229,7 @@ export default function MauticContactForm({
     setSubmissionError("");
   }
 
-  function validateStep(step: 1 | 2 | 3) {
+  function validateStep(step: StepNumber) {
     const nextErrors: Partial<Record<FieldKey, string>> = {};
 
     if (step === 1) {
@@ -222,7 +256,7 @@ export default function MauticContactForm({
     return Object.keys(nextErrors).length === 0;
   }
 
-  function handleNext(nextStep: 2 | 3) {
+  function handleNext(nextStep: Extract<StepNumber, 2 | 3>) {
     if (!validateStep(currentStep)) {
       return;
     }
@@ -230,7 +264,7 @@ export default function MauticContactForm({
     setCurrentStep(nextStep);
   }
 
-  function handlePrevious(previousStep: 1 | 2) {
+  function handlePrevious(previousStep: Extract<StepNumber, 1 | 2>) {
     setSubmissionError("");
     setCurrentStep(previousStep);
   }
@@ -241,6 +275,14 @@ export default function MauticContactForm({
       : [...formData.interest1, value];
 
     updateField("interest1", nextSelection);
+  }
+
+  function handleMessageInput(event: React.ChangeEvent<HTMLTextAreaElement>) {
+    updateField("f_message", event.target.value);
+
+    const element = event.currentTarget;
+    element.style.height = "auto";
+    element.style.height = `${Math.min(element.scrollHeight, 160)}px`;
   }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -258,10 +300,10 @@ export default function MauticContactForm({
     body.append("mauticform[last_name]", formData.last_name.trim());
     body.append("mauticform[email]", formData.email.trim());
     body.append("mauticform[phone_number]", formData.phone_number.trim());
-    body.append("mauticform[organization]", formData.organization.trim());
-    body.append("mauticform[role]", formData.role.trim());
+    body.append("mauticform[programs]", formData.organization.trim());
+    body.append("mauticform[role]", selectedRoleLabel);
     formData.interest1.forEach((value) =>
-      body.append("mauticform[interest1][]", value),
+      body.append("mauticform[interest][]", value),
     );
     body.append("mauticform[f_message]", formData.f_message.trim());
     body.append("mauticform[submit]", "");
@@ -279,6 +321,7 @@ export default function MauticContactForm({
       setFormData(initialState);
       setErrors({});
       setCurrentStep(1);
+      setShowMessageField(false);
       setShowSuccess(true);
     } catch {
       setSubmissionError("Something went wrong. Please try again in a moment.");
@@ -289,442 +332,472 @@ export default function MauticContactForm({
 
   return (
     <>
-      <div className="rounded-[32px] border border-white/78 bg-white/95 p-6 shadow-[0_28px_70px_rgba(83,65,141,0.12)] md:p-8">
-        <div className="flex flex-col gap-5">
-          <div>
-            <p
-              className="text-sm font-extrabold uppercase tracking-[0.2em]"
-              style={{ color: accentColor }}
+      <div className="overflow-hidden rounded-b-[28px] rounded-t-none border border-t-0 border-slate-200 bg-white shadow-[0_20px_48px_rgba(83,65,141,0.12)] md:rounded-[28px] md:border-t">
+        <div className="px-5 pb-5 pt-7 md:p-8">
+          <div className="text-center">
+            {formKicker ? (
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand-pink">
+                {formKicker}
+              </p>
+            ) : null}
+            <h3
+              className={`${formKicker ? "mt-3" : ""} text-3xl font-bold tracking-tight text-brand-ink md:text-4xl`}
             >
-              {formKicker}
-            </p>
-            <h3 className="mt-3 text-4xl font-black tracking-tight text-brand-ink">
-              {stepContent[currentStep].title ?? formTitle}
+              {formTitle}
             </h3>
           </div>
 
-          <div className="flex items-center">
-            {[1, 2, 3].map((step, index) => {
+          <ol className="relative mt-6 grid grid-cols-3 gap-3 md:gap-6">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute left-[calc(100%/6)] right-[calc(100%/6)] top-6 z-0 h-[3px] -translate-y-1/2 rounded-full bg-slate-200"
+            />
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute left-[calc(100%/6)] top-6 z-0 h-[3px] -translate-y-1/2 rounded-full bg-brand-pink transition-[width] duration-300 ease-out"
+              style={{ width: `calc((100% - (100% / 3)) * ${progressRatio})` }}
+            />
+            {stepSequence.map((step) => {
               const isActive = step === currentStep;
               const isComplete = step < currentStep;
 
               return (
-                <div
-                  key={step}
-                  className={`flex items-center ${step === 3 ? "flex-1" : "flex-[1_1_0%]"}`}
-                >
-                  <div
-                    className={`grid h-14 w-14 shrink-0 place-items-center rounded-full text-2xl font-black transition ${
-                      isActive
-                        ? "text-white shadow-[0_14px_26px_rgba(122,95,195,0.16)]"
-                        : isComplete
-                          ? "bg-slate-100 text-slate-700"
-                          : "bg-slate-100 text-slate-400"
-                    }`}
-                    style={isActive ? { background: accentGradient } : undefined}
-                    aria-current={isActive ? "step" : undefined}
-                  >
-                    {step}
+                <li key={step} className="relative flex min-w-0 justify-center">
+                  <div className="relative z-10 flex min-w-0 flex-col items-center text-center">
+                    <span
+                      className={`inline-flex h-12 w-12 items-center justify-center rounded-full text-base font-bold shadow-[0_8px_20px_rgba(255,255,255,0.95)] transition ${
+                        isComplete || isActive
+                          ? "border border-brand-pink bg-brand-pink text-white"
+                          : "border-2 border-brand-pink/35 bg-white text-brand-pink"
+                      }`}
+                      aria-current={isActive ? "step" : undefined}
+                    >
+                      {isComplete ? <Check size={18} strokeWidth={2.6} /> : step}
+                    </span>
+                    <span className="mt-3 hidden text-xs font-semibold uppercase tracking-[0.16em] text-brand-ink/85 md:block">
+                      {stepContent[step].label}
+                    </span>
                   </div>
-                  {index < 2 && (
-                    <div className="mx-3 h-[3px] flex-1 rounded-full bg-slate-200">
-                      <div
-                        className="h-full rounded-full transition-all"
-                        style={{
-                          width: currentStep > step ? "100%" : "0%",
-                          background: accentGradient,
-                        }}
-                      />
-                    </div>
-                  )}
-                </div>
+                </li>
               );
             })}
-          </div>
-        </div>
+          </ol>
 
-        {submissionError && (
-          <div className="mt-6 rounded-[20px] border border-rose-200 bg-rose-50 px-5 py-4 text-sm font-semibold text-rose-700">
-            {submissionError}
-          </div>
-        )}
-
-        <form
-          id="mauticform_welslandingcapture"
-          className="mt-8"
-          method="post"
-          action={FORM_ACTION}
-          data-mautic-form="welslandingcapture"
-          onSubmit={handleSubmit}
-          noValidate
-        >
-          <AnimatePresence mode="wait" initial={false}>
-            {currentStep === 1 && (
-              <motion.section
-                key="step-1"
-                initial={{ opacity: 0, y: 18, filter: "blur(6px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                exit={{ opacity: 0, y: -12, filter: "blur(6px)" }}
-                transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                className="grid gap-5 md:grid-cols-2"
-              >
-                <div>
-                  <label className="mb-3 block text-sm font-extrabold text-brand-ink">
-                    Your first name
-                  </label>
-                  <input
-                    id="mauticform_input_welslandingcapture_first_name"
-                    name="mauticform[first_name]"
-                    type="text"
-                    autoComplete="given-name"
-                    placeholder="Jane"
-                    value={formData.first_name}
-                    onChange={(event) =>
-                      updateField("first_name", event.target.value)
-                    }
-                    className={`w-full rounded-[24px] border px-5 py-4 text-lg text-brand-ink placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-slate-100 ${
-                      errors.first_name
-                        ? "border-rose-300 bg-rose-50"
-                        : "border-slate-200 bg-white"
-                    }`}
-                  />
-                  {errors.first_name && (
-                    <p className="mt-2 text-sm font-semibold text-rose-600">
-                      {errors.first_name}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="mb-3 block text-sm font-extrabold text-brand-ink">
-                    Your last name
-                  </label>
-                  <input
-                    id="mauticform_input_welslandingcapture_last_name"
-                    name="mauticform[last_name]"
-                    type="text"
-                    autoComplete="family-name"
-                    placeholder="Smith"
-                    value={formData.last_name}
-                    onChange={(event) =>
-                      updateField("last_name", event.target.value)
-                    }
-                    className="w-full rounded-[24px] border border-slate-200 bg-white px-5 py-4 text-lg text-brand-ink placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-slate-100"
-                  />
-                </div>
-
-                <div className="md:col-span-2">
-                  <label className="mb-3 block text-sm font-extrabold text-brand-ink">
-                    Your email
-                  </label>
-                  <input
-                    id="mauticform_input_welslandingcapture_email"
-                    name="mauticform[email]"
-                    type="email"
-                    autoComplete="email"
-                    inputMode="email"
-                    placeholder="you@example.com"
-                    value={formData.email}
-                    onChange={(event) => updateField("email", event.target.value)}
-                    className={`w-full rounded-[24px] border px-5 py-4 text-lg text-brand-ink placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-slate-100 ${
-                      errors.email
-                        ? "border-rose-300 bg-rose-50"
-                        : "border-slate-200 bg-white"
-                    }`}
-                  />
-                  {errors.email && (
-                    <p className="mt-2 text-sm font-semibold text-rose-600">
-                      {errors.email}
-                    </p>
-                  )}
-                </div>
-              </motion.section>
-            )}
-
-            {currentStep === 2 && (
-              <motion.section
-                key="step-2"
-                initial={{ opacity: 0, y: 18, filter: "blur(6px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                exit={{ opacity: 0, y: -12, filter: "blur(6px)" }}
-                transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                className="grid gap-5 md:grid-cols-2"
-              >
-                <div className="md:col-span-2">
-                  <label className="mb-3 block text-sm font-extrabold text-brand-ink">
-                    Organization
-                  </label>
-                  <input
-                    id="mauticform_input_welslandingcapture_organization"
-                    name="mauticform[organization]"
-                    type="text"
-                    autoComplete="organization"
-                    placeholder="Organization name"
-                    value={formData.organization}
-                    onChange={(event) =>
-                      updateField("organization", event.target.value)
-                    }
-                    className={`w-full rounded-[24px] border px-5 py-4 text-lg text-brand-ink placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-slate-100 ${
-                      errors.organization
-                        ? "border-rose-300 bg-rose-50"
-                        : "border-slate-200 bg-white"
-                    }`}
-                  />
-                  {errors.organization && (
-                    <p className="mt-2 text-sm font-semibold text-rose-600">
-                      {errors.organization}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="mb-3 block text-sm font-extrabold text-brand-ink">
-                    Role
-                  </label>
-                  <div className="relative">
-                    <select
-                      id="mauticform_input_welslandingcapture_role"
-                      name="mauticform[role]"
-                      value={formData.role}
-                      onChange={(event) => updateField("role", event.target.value)}
-                      className="w-full appearance-none rounded-[24px] border border-slate-200 bg-white px-5 py-4 pr-14 text-lg text-brand-ink focus:outline-none focus:ring-4 focus:ring-slate-100"
-                    >
-                      {roleOptions.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </select>
-                    <ChevronDown
-                      size={20}
-                      className="pointer-events-none absolute right-5 top-1/2 -translate-y-1/2 text-slate-400"
-                    />
-                  </div>
-                  <p className="mt-2 text-sm leading-6 text-slate-500">
-                    Choose the closest match for your team.
-                  </p>
-                </div>
-
-                <div>
-                  <label className="mb-3 block text-sm font-extrabold text-brand-ink">
-                    Phone number
-                  </label>
-                  <input
-                    id="mauticform_input_welslandingcapture_phone_number"
-                    name="mauticform[phone_number]"
-                    type="tel"
-                    autoComplete="tel"
-                    inputMode="tel"
-                    placeholder="(555) 555-5555"
-                    value={formData.phone_number}
-                    onChange={(event) =>
-                      updateField("phone_number", event.target.value)
-                    }
-                    className="w-full rounded-[24px] border border-slate-200 bg-white px-5 py-4 text-lg text-brand-ink placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-slate-100"
-                  />
-                </div>
-              </motion.section>
-            )}
-
-            {currentStep === 3 && (
-              <motion.section
-                key="step-3"
-                initial={{ opacity: 0, y: 18, filter: "blur(6px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                exit={{ opacity: 0, y: -12, filter: "blur(6px)" }}
-                transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                className="grid gap-5"
-              >
-                <fieldset>
-                  <legend className="mb-3 block text-sm font-extrabold text-brand-ink">
-                    Interest
-                  </legend>
-                  <div className="mb-3 flex flex-wrap items-center gap-3">
-                    <p className="text-sm text-slate-500">
-                      Choose one or more areas of interest.
-                    </p>
-                    {formData.interest1.length > 0 && (
-                      <span
-                        className="rounded-full px-3 py-1 text-xs font-extrabold uppercase tracking-[0.16em] text-white"
-                        style={{ background: accentGradient }}
-                      >
-                        {formData.interest1.length} selected
-                      </span>
-                    )}
-                  </div>
-                  <div className="grid gap-3 md:grid-cols-2">
-                    {interestOptions.map((option) => {
-                      const selected = formData.interest1.includes(option.value);
-
-                      return (
-                        <button
-                          key={option.value}
-                          type="button"
-                          aria-pressed={selected}
-                          onClick={() => toggleInterest(option.value)}
-                          className={`group relative rounded-[24px] border p-5 text-left transition ${
-                            selected
-                              ? "border-transparent bg-slate-50 shadow-[0_16px_36px_rgba(122,95,195,0.12)]"
-                              : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/70"
-                          }`}
-                          style={selected ? { boxShadow: "0 16px 36px rgba(122,95,195,0.12)" } : undefined}
-                        >
-                          {selected && (
-                            <div
-                              className="absolute inset-x-0 top-0 h-1 rounded-t-[24px]"
-                              style={{ background: accentGradient }}
-                            />
-                          )}
-                          <div className="flex items-start gap-4">
-                            <div
-                              className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition ${
-                                selected
-                                  ? "border-transparent text-white"
-                                  : "border-slate-300 bg-white text-transparent"
-                              }`}
-                              style={selected ? { background: accentGradient } : undefined}
-                            >
-                              <CheckCircle2 size={14} />
-                            </div>
-                            <div>
-                              <p className="text-base font-black leading-tight text-brand-ink">
-                                {option.label}
-                              </p>
-                              <p className="mt-2 text-sm leading-6 text-slate-600">
-                                {option.description}
-                              </p>
-                            </div>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                  <div className="sr-only" aria-hidden="true">
-                    {formData.interest1.map((value) => (
-                      <input
-                        key={value}
-                        type="hidden"
-                        name="mauticform[interest1][]"
-                        value={value}
-                        readOnly
-                      />
-                    ))}
-                  </div>
-                  {errors.interest1 && (
-                    <p className="mt-2 text-sm font-semibold text-rose-600">
-                      {errors.interest1}
-                    </p>
-                  )}
-                </fieldset>
-
-                <div>
-                  <label className="mb-3 block text-sm font-extrabold text-brand-ink">
-                    Message
-                  </label>
-                  <textarea
-                    id="mauticform_input_welslandingcapture_f_message"
-                    name="mauticform[f_message]"
-                    rows={5}
-                    placeholder="Tell us a little more about what you need."
-                    value={formData.f_message}
-                    onChange={(event) =>
-                      updateField("f_message", event.target.value)
-                    }
-                    className="w-full rounded-[24px] border border-slate-200 bg-white px-5 py-4 text-base text-brand-ink placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-slate-100"
-                  />
-                </div>
-              </motion.section>
-            )}
-          </AnimatePresence>
-
-          <p className="mt-5 text-base leading-7 text-slate-500">
+          <p className="mt-4 text-center text-sm text-slate-500">
             {stepContent[currentStep].helper}
           </p>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-            {currentStep > 1 && (
-              <button
-                type="button"
-                onClick={() => handlePrevious((currentStep - 1) as 1 | 2)}
-                className="inline-flex min-h-[64px] items-center justify-center gap-2 rounded-[20px] border border-slate-200 px-6 text-base font-extrabold text-slate-600 transition hover:bg-slate-50"
-              >
-                <ChevronLeft size={18} />
-                Back
-              </button>
-            )}
+          {submissionError && (
+            <div className="mt-5 rounded-[18px] border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700">
+              {submissionError}
+            </div>
+          )}
 
-            {currentStep < 3 ? (
-              <button
-                type="button"
-                onClick={() => handleNext((currentStep + 1) as 2 | 3)}
-                className="inline-flex min-h-[72px] flex-1 items-center justify-center rounded-[22px] px-6 text-xl font-black text-white shadow-[0_18px_34px_rgba(122,95,195,0.18)] transition hover:-translate-y-px"
-                style={{ background: accentGradient }}
-              >
-                Continue
-              </button>
-            ) : (
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="inline-flex min-h-[72px] flex-1 items-center justify-center rounded-[22px] px-6 text-xl font-black text-white shadow-[0_18px_34px_rgba(122,95,195,0.18)] transition hover:-translate-y-px disabled:cursor-not-allowed disabled:opacity-60 disabled:transform-none"
-                style={{ background: accentGradient }}
-              >
-                {isSubmitting ? "Submitting..." : "Submit"}
-              </button>
-            )}
-          </div>
+          <form
+            id="mauticform_welslandingcapture"
+            className="mt-6"
+            method="post"
+            action={FORM_ACTION}
+            data-mautic-form="welslandingcapture"
+            onSubmit={handleSubmit}
+            noValidate
+          >
+            <div className="min-h-[360px] md:min-h-[420px]">
+              <AnimatePresence mode="wait" initial={false}>
+                {currentStep === 1 && (
+                  <motion.section
+                    key="step-1"
+                    initial={{ opacity: 0, y: 14 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                    className="grid content-start gap-4"
+                  >
+                    <div>
+                      <label className="mb-2 block text-sm font-semibold text-brand-ink">
+                        First Name
+                        <RequiredDot />
+                      </label>
+                      <input
+                        id="mauticform_input_welslandingcapture_first_name"
+                        name="mauticform[first_name]"
+                        type="text"
+                        autoComplete="given-name"
+                        placeholder="Jane"
+                        value={formData.first_name}
+                        onChange={(event) =>
+                          updateField("first_name", event.target.value)
+                        }
+                        className={`min-h-[56px] w-full rounded-[18px] border px-4 py-3 text-base text-brand-ink placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-brand-pink/10 ${
+                          errors.first_name
+                            ? "border-rose-300 bg-rose-50"
+                            : "border-slate-200 bg-white"
+                        }`}
+                      />
+                      {errors.first_name && (
+                        <p className="mt-2 text-sm font-semibold text-rose-600">
+                          {errors.first_name}
+                        </p>
+                      )}
+                    </div>
 
-          <input type="hidden" name="mauticform[formId]" value="12" />
-          <input type="hidden" name="mauticform[return]" value="" />
-          <input
-            type="hidden"
-            name="mauticform[formName]"
-            value="welslandingcapture"
-          />
-        </form>
+                    <div>
+                      <label className="mb-2 block text-sm font-semibold text-brand-ink">
+                        Last Name
+                      </label>
+                      <input
+                        id="mauticform_input_welslandingcapture_last_name"
+                        name="mauticform[last_name]"
+                        type="text"
+                        autoComplete="family-name"
+                        placeholder="Smith"
+                        value={formData.last_name}
+                        onChange={(event) =>
+                          updateField("last_name", event.target.value)
+                        }
+                        className="min-h-[56px] w-full rounded-[18px] border border-slate-200 bg-white px-4 py-3 text-base text-brand-ink placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-brand-pink/10"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="mb-2 block text-sm font-semibold text-brand-ink">
+                        Email
+                        <RequiredDot />
+                      </label>
+                      <input
+                        id="mauticform_input_welslandingcapture_email"
+                        name="mauticform[email]"
+                        type="email"
+                        autoComplete="email"
+                        inputMode="email"
+                        placeholder="you@example.com"
+                        value={formData.email}
+                        onChange={(event) =>
+                          updateField("email", event.target.value)
+                        }
+                        className={`min-h-[56px] w-full rounded-[18px] border px-4 py-3 text-base text-brand-ink placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-brand-pink/10 ${
+                          errors.email
+                            ? "border-rose-300 bg-rose-50"
+                            : "border-slate-200 bg-white"
+                        }`}
+                      />
+                      {errors.email && (
+                        <p className="mt-2 text-sm font-semibold text-rose-600">
+                          {errors.email}
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="mb-2 block text-sm font-semibold text-brand-ink">
+                        Phone
+                      </label>
+                      <div className="relative">
+                        <input
+                          id="mauticform_input_welslandingcapture_phone_number"
+                          name="mauticform[phone_number]"
+                          type="tel"
+                          autoComplete="tel"
+                          inputMode="tel"
+                          placeholder="(555) 555-5555"
+                          value={formData.phone_number}
+                          onChange={(event) =>
+                            updateField("phone_number", event.target.value)
+                          }
+                          className="min-h-[56px] w-full rounded-[18px] border border-slate-200 bg-white px-4 py-3 pl-11 text-base text-brand-ink placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-brand-pink/10"
+                        />
+                        <Phone
+                          size={16}
+                          className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
+                        />
+                      </div>
+                    </div>
+                  </motion.section>
+                )}
+
+                {currentStep === 2 && (
+                  <motion.section
+                    key="step-2"
+                    initial={{ opacity: 0, y: 14 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                    className="grid content-start gap-4"
+                  >
+                    <div>
+                      <label className="mb-2 block text-sm font-semibold text-brand-ink">
+                        Organization
+                        <RequiredDot />
+                      </label>
+                      <input
+                        id="mauticform_input_welslandingcapture_organization"
+                        name="mauticform[programs]"
+                        type="text"
+                        autoComplete="organization"
+                        placeholder="Organization name"
+                        value={formData.organization}
+                        onChange={(event) =>
+                          updateField("organization", event.target.value)
+                        }
+                        className={`min-h-[56px] w-full rounded-[18px] border px-4 py-3 text-base text-brand-ink placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-brand-pink/10 ${
+                          errors.organization
+                            ? "border-rose-300 bg-rose-50"
+                            : "border-slate-200 bg-white"
+                        }`}
+                      />
+                      {errors.organization && (
+                        <p className="mt-2 text-sm font-semibold text-rose-600">
+                          {errors.organization}
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="mb-2 block text-sm font-semibold text-brand-ink">
+                        Role
+                      </label>
+                      <div className="relative">
+                        <select
+                          id="mauticform_input_welslandingcapture_role"
+                          name="mauticform[role]"
+                          value={formData.role}
+                          onChange={(event) =>
+                            updateField("role", event.target.value)
+                          }
+                          className="min-h-[56px] w-full appearance-none rounded-[18px] border border-slate-200 bg-white px-4 py-3 pr-12 text-base text-brand-ink focus:outline-none focus:ring-4 focus:ring-brand-pink/10"
+                        >
+                          {roleOptions.map((option) => (
+                            <option key={option.value} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}
+                        </select>
+                        <ChevronDown
+                          size={18}
+                          className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"
+                        />
+                      </div>
+                    </div>
+                  </motion.section>
+                )}
+
+                {currentStep === 3 && (
+                  <motion.section
+                    key="step-3"
+                    initial={{ opacity: 0, y: 14 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                    className="grid content-start gap-4"
+                  >
+                    <fieldset>
+                      <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                        <legend className="text-sm font-semibold text-brand-ink">
+                          Interests
+                          <RequiredDot />
+                        </legend>
+                        <p className="text-sm text-slate-500">
+                          Choose one or more areas of interest.
+                        </p>
+                      </div>
+
+                      <div className="rounded-[24px] border border-slate-200 bg-slate-50/70 p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),inset_0_-10px_18px_rgba(83,65,141,0.04)]">
+                        <div className="max-h-[240px] overflow-y-auto pr-1 md:max-h-[270px] lg:max-h-[300px]">
+                          <div className="grid gap-3">
+                            {interestOptions.map((option) => {
+                              const selected = formData.interest1.includes(
+                                option.value,
+                              );
+                              const Icon = option.icon;
+
+                              return (
+                                <button
+                                  key={option.value}
+                                  type="button"
+                                  aria-pressed={selected}
+                                  onClick={() => toggleInterest(option.value)}
+                                  className={`rounded-[20px] border px-4 py-3 text-left transition active:scale-[0.98] ${
+                                    selected
+                                      ? "border-brand-pink bg-brand-pink/6 shadow-[0_10px_24px_rgba(122,95,195,0.14)]"
+                                      : "border-slate-200 bg-white hover:border-slate-300"
+                                  }`}
+                                >
+                                  <div className="flex items-start gap-4">
+                                    <div
+                                      className={`mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl ${
+                                        selected
+                                          ? "bg-brand-plum text-white"
+                                          : "bg-slate-100 text-slate-500"
+                                      }`}
+                                    >
+                                      <Icon size={22} />
+                                    </div>
+
+                                    <div className="min-w-0 flex-1">
+                                      <p className="text-sm font-bold leading-tight text-brand-ink md:text-base">
+                                        {option.label}
+                                      </p>
+                                      <p className="mt-1 text-xs leading-5 text-slate-500 md:text-sm">
+                                        {option.description}
+                                      </p>
+                                    </div>
+
+                                    <div
+                                      className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition ${
+                                        selected
+                                          ? "border-brand-plum bg-brand-plum text-white"
+                                          : "border-slate-300 bg-white text-transparent"
+                                      }`}
+                                    >
+                                      <Check size={14} />
+                                    </div>
+                                  </div>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="sr-only" aria-hidden="true">
+                        {formData.interest1.map((value) => (
+                          <input
+                            key={value}
+                            type="hidden"
+                            name="mauticform[interest][]"
+                            value={value}
+                            readOnly
+                          />
+                        ))}
+                      </div>
+
+                      {errors.interest1 && (
+                        <p className="mt-2 text-sm font-semibold text-rose-600">
+                          {errors.interest1}
+                        </p>
+                      )}
+                    </fieldset>
+
+                    <div className="rounded-[20px] border border-slate-200 bg-slate-50/50">
+                      <button
+                        type="button"
+                        onClick={() => setShowMessageField((current) => !current)}
+                        className="flex min-h-[52px] w-full items-center justify-between gap-3 px-4 text-left text-sm font-semibold text-brand-ink"
+                        aria-expanded={showMessageField}
+                      >
+                        <span>Add more details (optional)</span>
+                        <ChevronDown
+                          size={18}
+                          className={`transition ${showMessageField ? "rotate-180" : ""}`}
+                        />
+                      </button>
+
+                      <AnimatePresence initial={false}>
+                        {showMessageField && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.18, ease: "easeOut" }}
+                            className="overflow-hidden border-t border-slate-200"
+                          >
+                            <div className="p-4">
+                              <textarea
+                                id="mauticform_input_welslandingcapture_f_message"
+                                name="mauticform[f_message]"
+                                rows={4}
+                                placeholder="Tell us a little more about what you need."
+                                value={formData.f_message}
+                                onChange={handleMessageInput}
+                                className="min-h-[80px] max-h-[160px] w-full resize-none rounded-[18px] border border-slate-200 bg-white px-4 py-3 text-base text-brand-ink placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-brand-pink/10"
+                              />
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  </motion.section>
+                )}
+              </AnimatePresence>
+            </div>
+
+            <input type="hidden" name="mauticform[formId]" value="12" />
+            <input type="hidden" name="mauticform[return]" value="" />
+            <input
+              type="hidden"
+              name="mauticform[formName]"
+              value="welslandingcapture"
+            />
+
+            <div className="sticky bottom-0 -mx-5 mt-6 border-t border-slate-200 bg-white/95 px-5 py-4 backdrop-blur md:static md:mx-0 md:border-t-0 md:bg-transparent md:px-0 md:py-0">
+              <div
+                className={`grid gap-3 ${currentStep > 1 ? "grid-cols-[auto_1fr]" : "grid-cols-1"}`}
+              >
+                {currentStep > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => handlePrevious((currentStep - 1) as 1 | 2)}
+                    className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full border border-slate-200 px-5 text-sm font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-slate-50"
+                  >
+                    <ChevronLeft size={16} />
+                    Back
+                  </button>
+                )}
+
+                {currentStep < 3 ? (
+                  <button
+                    type="button"
+                    onClick={() => handleNext((currentStep + 1) as 2 | 3)}
+                    className="gradient-shift-button inline-flex min-h-[52px] items-center justify-center rounded-full px-6 text-sm font-semibold text-white shadow-[0_18px_34px_rgba(122,95,195,0.18)]"
+                    style={{ backgroundImage: buttonGradient }}
+                  >
+                    Continue
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="gradient-shift-button inline-flex min-h-[52px] items-center justify-center rounded-full px-6 text-sm font-semibold text-white shadow-[0_18px_34px_rgba(122,95,195,0.18)] disabled:cursor-not-allowed disabled:opacity-60"
+                    style={{ backgroundImage: buttonGradient }}
+                  >
+                    {isSubmitting ? "Submitting..." : "Submit"}
+                  </button>
+                )}
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
 
       {showSuccess && (
-        <div className="fixed inset-0 z-[999] grid min-h-dvh place-items-center bg-[rgba(248,247,255,0.72)] p-5 backdrop-blur-xl">
-          <div className="relative w-full max-w-[720px] rounded-[34px] border border-white/80 bg-white/96 px-8 py-12 text-center shadow-[0_36px_90px_rgba(122,95,195,0.20)] md:px-12 md:py-16">
+        <div className="fixed inset-0 z-[999] grid min-h-dvh place-items-center bg-[rgba(248,247,255,0.74)] p-5 backdrop-blur-xl">
+          <div className="relative w-full max-w-[760px] overflow-hidden rounded-[34px] border border-white/80 bg-white/96 px-8 py-12 text-center shadow-[0_36px_90px_rgba(122,95,195,0.22)] md:px-12 md:py-16">
             <button
               type="button"
               aria-label="Close"
               onClick={() => setShowSuccess(false)}
-              className="absolute right-5 top-5 inline-flex h-10 w-10 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
+              className="absolute right-5 top-5 inline-flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-700"
             >
-              <X size={20} />
+              <X size={24} />
             </button>
 
-            <div
-              className="mx-auto flex h-24 w-24 items-center justify-center rounded-full shadow-[0_18px_40px_rgba(122,95,195,0.18)]"
-              style={{ background: accentGradient }}
-            >
-              <CheckCircle2 size={42} className="text-white" />
-            </div>
-
-            <p
-              className="mt-8 text-sm font-extrabold uppercase tracking-[0.2em]"
-              style={{ color: accentColor }}
-            >
-              {successKicker}
-            </p>
-            <h3 className="mx-auto mt-4 max-w-[12ch] text-4xl font-black leading-[1.05] tracking-tight text-brand-ink md:text-5xl">
+            <h3 className="mx-auto max-w-[12ch] text-4xl font-bold tracking-tight text-brand-ink md:text-5xl">
               {successTitle}
             </h3>
-            <p className="mx-auto mt-5 max-w-[30ch] text-lg leading-8 text-slate-600">
+            <p className="mx-auto mt-5 max-w-[34ch] text-lg leading-8 text-slate-600">
               {successMessage}
             </p>
 
-            <div className="mt-10 flex justify-center">
-              <button
-                type="button"
-                onClick={() => setShowSuccess(false)}
-                className="inline-flex min-h-[62px] items-center justify-center rounded-[20px] px-8 text-lg font-black text-white shadow-[0_18px_34px_rgba(122,95,195,0.18)] transition hover:-translate-y-px"
-                style={{ background: accentGradient }}
-              >
-                Done
-              </button>
+            <div className="mt-8 flex flex-col items-center">
+              <img
+                src={mikeUrl}
+                alt="Mike from WELS"
+                className="h-20 w-20 rounded-[24px] object-cover shadow-[0_18px_40px_rgba(93,76,172,0.16)]"
+                loading="lazy"
+              />
+              <p className="mt-3 text-sm font-semibold text-slate-500">
+                Mike from WELS
+              </p>
             </div>
           </div>
         </div>

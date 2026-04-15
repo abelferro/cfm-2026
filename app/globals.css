@@ -5,8 +5,11 @@
   --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
 
   --color-brand-ink: #2f2753;
+  --color-brand-blue: #5f6bd2;
   --color-brand-pink: #eb4d8f;
   --color-brand-plum: #7a5fc3;
+  --color-brand-yellow: #f4d55e;
+  --color-brand-lime: #8ccf72;
   --color-brand-soft: #ffe6f1;
   --color-brand-mist: #f7efff;
   --color-brand-lilac: #e8dbff;
@@ -36,12 +39,12 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-brand-pink);
+    outline: 2px solid var(--color-brand-blue);
     outline-offset: 3px;
   }
 
   ::selection {
-    background: rgba(235, 77, 143, 0.16);
+    background: rgba(95, 107, 210, 0.16);
   }
 }
 
@@ -63,7 +66,7 @@
 
   .section-kicker {
     font-size: 0.76rem;
-    font-weight: 900;
+    font-weight: 700;
     letter-spacing: 0.24em;
     text-transform: uppercase;
     color: var(--color-brand-pink);
@@ -88,5 +91,35 @@
     background: rgba(255, 255, 255, 0.96);
     padding: 1.5rem;
     box-shadow: 0 20px 50px rgba(83, 65, 141, 0.08);
+  }
+
+  .interactive-panel {
+    transition:
+      transform 180ms ease,
+      box-shadow 180ms ease,
+      border-color 180ms ease;
+  }
+
+  .interactive-panel:hover {
+    border-color: rgba(235, 77, 143, 0.18);
+    box-shadow: 0 28px 80px rgba(83, 65, 141, 0.14);
+  }
+
+  .gradient-shift-button {
+    background-size: 200% 100%;
+    background-position: 0% 50%;
+    transition:
+      transform 180ms ease,
+      background-position 380ms ease,
+      box-shadow 180ms ease,
+      opacity 180ms ease;
+  }
+
+  .gradient-shift-button:hover {
+    background-position: 100% 50%;
+  }
+
+  .gradient-shift-button:disabled:hover {
+    background-position: 0% 50%;
   }
 }
