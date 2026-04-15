@@ -126,9 +126,23 @@ export default function LandingPage() {
         </a>
       </header>
 
-      <section className="mx-auto grid max-w-7xl gap-12 px-6 pb-18 pt-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-        <motion.div {...reveal()} className="relative z-10">
-          <h1 className="mt-8 max-w-3xl text-5xl font-extrabold leading-[0.98] tracking-tight text-brand-ink md:text-7xl">
+      <section className="mx-auto flex max-w-7xl flex-col gap-6 px-6 pb-18 pt-2 lg:grid lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:gap-12 lg:pt-6">
+        <motion.div
+          {...reveal(0.12)}
+          className="relative order-1 -mb-6 -mt-6 lg:order-2 lg:mb-0 lg:mt-0"
+        >
+          <div className="relative flex min-h-[210px] items-start justify-center md:min-h-[420px] lg:min-h-[660px]">
+            <img
+              src={educatorsImageUrl}
+              alt="WELS educators hero visual"
+              className="mx-auto w-full max-w-[980px] object-contain"
+              loading="lazy"
+            />
+          </div>
+        </motion.div>
+
+        <motion.div {...reveal()} className="relative z-10 order-2 lg:order-1">
+          <h1 className="mt-0 max-w-3xl text-5xl font-extrabold leading-[0.98] tracking-tight text-brand-ink md:text-7xl lg:mt-8">
             Grow Educators.
             <span className="gradient-text block">Grow Futures.</span>
           </h1>
@@ -153,17 +167,6 @@ export default function LandingPage() {
             >
               Talk with WELS
             </a>
-          </div>
-        </motion.div>
-
-        <motion.div {...reveal(0.12)} className="relative">
-          <div className="relative flex min-h-[440px] items-center justify-center md:min-h-[660px]">
-            <img
-              src={educatorsImageUrl}
-              alt="WELS educators hero visual"
-              className="mx-auto w-full max-w-[920px] object-contain"
-              loading="lazy"
-            />
           </div>
         </motion.div>
       </section>
@@ -194,9 +197,17 @@ export default function LandingPage() {
               key={title}
               {...reveal(index * 0.05)}
               {...cardMotion}
-              className="wels-card interactive-panel relative overflow-hidden grid grid-cols-[auto_1fr] items-center gap-3 px-4 py-4 md:gap-5 md:px-5 md:py-4.5"
+              className={`interactive-panel relative overflow-hidden grid grid-cols-[auto_1fr] items-center gap-3 rounded-[30px] border px-4 py-4 shadow-[0_18px_44px_rgba(83,65,141,0.08)] backdrop-blur-sm md:gap-5 md:px-5 md:py-4.5 ${
+                [
+                  "border-[rgba(95,107,210,0.24)] bg-[linear-gradient(135deg,rgba(95,107,210,0.26)_0%,rgba(157,132,244,0.16)_18%,rgba(255,255,255,0.95)_56%,rgba(255,255,255,0.99)_100%)]",
+                  "border-[rgba(235,77,143,0.24)] bg-[linear-gradient(135deg,rgba(235,77,143,0.28)_0%,rgba(255,182,212,0.16)_18%,rgba(255,255,255,0.95)_56%,rgba(255,255,255,0.99)_100%)]",
+                  "border-[rgba(244,213,94,0.28)] bg-[linear-gradient(135deg,rgba(255,215,110,0.3)_0%,rgba(255,196,222,0.14)_18%,rgba(255,255,255,0.95)_56%,rgba(255,255,255,0.99)_100%)]",
+                  "border-[rgba(170,120,255,0.24)] bg-[linear-gradient(135deg,rgba(170,120,255,0.24)_0%,rgba(255,177,214,0.14)_18%,rgba(255,255,255,0.95)_56%,rgba(255,255,255,0.99)_100%)]",
+                ][index]
+              }`}
             >
-              <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-[radial-gradient(circle_at_right,rgba(235,77,143,0.08),transparent_68%)] md:w-24" />
+              <div className="pointer-events-none absolute -left-8 top-1/2 h-24 w-24 -translate-y-1/2 rounded-full bg-white/50 blur-2xl" />
+              <div className="pointer-events-none absolute inset-y-0 right-0 w-20 bg-[radial-gradient(circle_at_right,rgba(235,77,143,0.14),transparent_70%)] md:w-28" />
 
               <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[20px] bg-brand-soft text-brand-pink md:h-18 md:w-18 md:rounded-[22px]">
                 <Icon size={26} />
@@ -224,24 +235,32 @@ export default function LandingPage() {
         description="WELS brings workforce development, training, credentials, incentives, and reporting into one connected experience that supports educator growth and stronger outcomes for children."
       >
         <div className="grid gap-6 lg:grid-cols-3">
-          {exchangeModules.map((item, index) => (
-            <motion.div
-              key={item.title}
-              {...reveal(index * 0.08)}
-              {...cardMotion}
-              className="wels-card interactive-panel p-7"
-            >
-              <p className="text-sm font-bold uppercase tracking-[0.2em] text-brand-pink">
-                Module
-              </p>
-              <h3 className="mt-4 text-3xl font-bold tracking-tight text-brand-ink">
-                {item.title}
-              </h3>
-              <p className="mt-5 text-base leading-8 text-slate-600">
-                {item.description}
-              </p>
-            </motion.div>
-          ))}
+          {exchangeModules.map((item, index) => {
+            const cardBackgrounds = [
+              "border-[rgba(95,107,210,0.24)] bg-[linear-gradient(135deg,rgba(95,107,210,0.32)_0%,rgba(160,140,246,0.2)_28%,rgba(255,255,255,0.97)_70%,rgba(255,255,255,0.99)_100%)]",
+              "border-[rgba(235,77,143,0.24)] bg-[linear-gradient(135deg,rgba(235,77,143,0.34)_0%,rgba(255,188,218,0.2)_28%,rgba(255,255,255,0.97)_70%,rgba(255,255,255,0.99)_100%)]",
+              "border-[rgba(244,213,94,0.3)] bg-[linear-gradient(135deg,rgba(255,214,98,0.38)_0%,rgba(255,196,222,0.18)_28%,rgba(255,255,255,0.97)_70%,rgba(255,255,255,0.99)_100%)]",
+            ];
+
+            return (
+              <motion.div
+                key={item.title}
+                {...reveal(index * 0.08)}
+                {...cardMotion}
+                className={`interactive-panel rounded-[32px] border p-7 shadow-[0_18px_44px_rgba(83,65,141,0.06)] backdrop-blur-sm ${cardBackgrounds[index]}`}
+              >
+                <p className="text-sm font-bold uppercase tracking-[0.2em] text-brand-pink">
+                  Module
+                </p>
+                <h3 className="mt-4 text-3xl font-bold tracking-tight text-brand-ink">
+                  {item.title}
+                </h3>
+                <p className="mt-5 text-base leading-8 text-slate-600">
+                  {item.description}
+                </p>
+              </motion.div>
+            );
+          })}
         </div>
       </Section>
 
