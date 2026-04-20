@@ -2,9 +2,9 @@ export const landingConfig = {
   slug: "cfm-2026",
   siteName: "CFM Summit 2026",
   brandName: "WELS Systems Foundation",
-  title: "CFM Summit 2026",
+  title: "WELS Supporter of CFM Summit 2026",
   description:
-    "WELS Systems Foundation landing for the CFM Summit 2026, focused on educator growth, professional development, badges, and data-driven support.",
+    "WELS Systems Foundation is a proud supporter of the Children's Foundation of Mississippi and the 5th Annual CFM Summit 2026.",
   basePath: "/lp/cfm-2026",
   locale: "en_US",
   keywords: [
