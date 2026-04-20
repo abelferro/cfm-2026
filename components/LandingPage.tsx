@@ -54,7 +54,7 @@ const featureList = [
   {
     icon: BarChart3,
     title: "Data-Driven Insights",
-    description: "Make smarter decisions. Improve outcomes for children",
+    description: "Make smarter decisions. Improve outcomes for children.",
   },
 ];
 
@@ -222,10 +222,7 @@ export default function LandingPage() {
               </div>
 
               <div className="relative min-w-0">
-                <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-brand-pink md:text-xs">
-                  0{index + 1}
-                </p>
-                <h2 className="mt-1 text-xl font-bold leading-tight tracking-tight text-brand-ink md:text-[1.9rem]">
+                <h2 className="text-xl font-bold leading-tight tracking-tight text-brand-ink md:text-[1.9rem]">
                   {title}
                 </h2>
                 <p className="mt-1 text-sm leading-6 text-slate-700 md:text-[1.15rem] md:leading-[1.35]">
@@ -275,20 +272,18 @@ export default function LandingPage() {
           className="wels-card grid gap-8 overflow-hidden p-8 md:grid-cols-[0.88fr_1.12fr] md:p-10"
         >
           <div>
-            <p className="section-kicker">Summit framing</p>
+            
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-brand-ink md:text-4xl">
               Proud event sponsor of the Children&apos;s Foundation of Mississippi.
             </h2>
             <p className="mt-5 text-base leading-8 text-slate-600">
-              WELS is honored to support the people and organizations working
+              WELS is honored to support people and organizations working
               across Mississippi to strengthen early childhood education,
               elevate educators, and create brighter futures for children.
             </p>
           </div>
           <div className="rounded-[30px] bg-brand-plum px-6 py-7 text-white">
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-white/70">
-              Event line
-            </p>
+            
             <p className="mt-4 text-3xl font-bold leading-tight">
               Children&apos;s Foundation of Mississippi
             </p>
