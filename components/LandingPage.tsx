@@ -72,7 +72,7 @@ const exchangeModules = [
   {
     title: "Data Management",
     description:
-      "PRISM reporting turns collected data into dashboards, trends, and analysis that leaders can actually use.",
+      "PRISM reporting turns collected data into dashboards, trends, and analytics that leaders can actually use.",
   },
 ];
 
@@ -334,7 +334,7 @@ export default function LandingPage() {
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-brand-pink/18 bg-white/80 px-4 py-3 text-sm font-bold text-brand-ink transition hover:border-brand-pink hover:text-brand-pink"
               >
                 <Phone size={16} />
-                786.735.0200
+                601-345-3644
               </div>
             </div>
           </div>
