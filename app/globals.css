@@ -5,11 +5,11 @@
   --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
 
   --color-brand-ink: #2f2753;
-  --color-brand-blue: #5f6bd2;
-  --color-brand-pink: #eb4d8f;
+  --color-brand-blue: #3252e0;
+  --color-brand-pink: #e44081;
   --color-brand-plum: #7a5fc3;
-  --color-brand-yellow: #f4d55e;
-  --color-brand-lime: #8ccf72;
+  --color-brand-yellow: #ffd600;
+  --color-brand-lime: #97cb01;
   --color-brand-soft: #ffe6f1;
   --color-brand-mist: #f7efff;
   --color-brand-lilac: #e8dbff;
@@ -26,13 +26,13 @@
     color: var(--color-brand-ink);
     background:
       radial-gradient(circle at -8% 22%, transparent 0 7.2%, rgba(80, 195, 246, 0.16) 8.6%, rgba(80, 195, 246, 0.06) 10.4%, transparent 13.8%),
-      radial-gradient(circle at 108% 18%, transparent 0 5.8%, rgba(255, 181, 102, 0.16) 7.1%, rgba(228, 64, 129, 0.08) 8.8%, transparent 11.9%),
-      radial-gradient(circle at 106% 72%, transparent 0 8.8%, rgba(95, 107, 210, 0.11) 10.3%, rgba(244, 213, 94, 0.05) 12.2%, transparent 16.2%),
+      radial-gradient(circle at 108% 18%, transparent 0 5.8%, rgba(255, 214, 0, 0.16) 7.1%, rgba(228, 64, 129, 0.08) 8.8%, transparent 11.9%),
+      radial-gradient(circle at 106% 72%, transparent 0 8.8%, rgba(50, 82, 224, 0.11) 10.3%, rgba(255, 214, 0, 0.05) 12.2%, transparent 16.2%),
       radial-gradient(circle at 18% 8%, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.84) 16%, transparent 34%),
       radial-gradient(circle at 8% 10%, rgba(255, 255, 255, 0.7), transparent 22%),
-      radial-gradient(circle at top right, rgba(244, 213, 94, 0.18), transparent 30%),
+      radial-gradient(circle at top right, rgba(255, 214, 0, 0.18), transparent 30%),
       radial-gradient(circle at top left, rgba(228, 64, 129, 0.16), transparent 28%),
-      radial-gradient(circle at bottom left, rgba(95, 107, 210, 0.1), transparent 24%),
+      radial-gradient(circle at bottom left, rgba(50, 82, 224, 0.1), transparent 24%),
       linear-gradient(180deg, #fff8fa 0%, #ffffff 40%, #f7fbff 100%);
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
@@ -79,7 +79,7 @@
   }
 
   .gradient-text {
-    background-image: linear-gradient(120deg, #5f6bd2 0%, #a556bf 48%, #eb4d8f 100%);
+    background-image: linear-gradient(120deg, #3252e0 0%, #8b5ad8 48%, #e44081 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;

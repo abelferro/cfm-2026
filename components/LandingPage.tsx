@@ -16,11 +16,11 @@ import MauticContactForm from "@/components/MauticContactForm";
 const logoUrl =
   "https://tds.bwelz.org/logos/wels/digital/SVG/wels-Horizontal_Logo_RGB_Full_Color.svg?Expires=1881081483&Signature=XZYm8YQbfhBMaBRxh~YRLGK60sm39SHfjqQIx85sg8dJiw3mbBNeRt28fGyUnbgl5DEA31ZQy-lJuBOwYxLa7tFN3JaB3SxBQVHMua6WqRZqfqjAXIE9v9jWCLrV-EBwboXVOdkzk2jdk3NLcOH-kbiU~UWOd7xrUy6jnuyYFc0zZNmQl3LFx-iXo04pfYzjEJ0si68wsLfoyLs~ejS~7K0yvYTEEUYCxZn-6gTWh8FT8PWl6Ni9CJKKxqg5DZlJsOPoS4tuM7xR6E7iCsIAdowDCzfbB~w9CUeZoHTNopzkXrYQfFlmVO00290Baap32us-kz0LIotdxmSBZ-bt7A__&Key-Pair-Id=K1PPZDIOWN47R1";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-const educatorsImageUrl = `${basePath}/images/wels-educators.png`;
+const heroImageUrl = `${basePath}/images/cfm-summit-2026.png`;
 const mikeUrl =
   "https://welsfoundation.org/wp-content/uploads/2022/03/mike-bwelz-360px.jpg";
 const buttonGradient =
-  "linear-gradient(90deg, var(--color-brand-plum, #7a5fc3) 0%, var(--color-brand-pink, #eb4d8f) 50%, var(--color-brand-plum, #7a5fc3) 100%)";
+  "linear-gradient(90deg, var(--color-brand-blue, #3252e0) 0%, var(--color-brand-pink, #e44081) 52%, var(--color-brand-blue, #3252e0) 100%)";
 
 const reveal = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
@@ -126,39 +126,47 @@ export default function LandingPage() {
         </a>
       </header>
 
-      <section className="mx-auto flex max-w-7xl flex-col gap-6 px-6 pb-18 pt-2 lg:grid lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:gap-12 lg:pt-6">
+      <section className="mx-auto flex max-w-7xl flex-col gap-0 px-6 pb-16 pt-0 lg:grid lg:grid-cols-[0.92fr_1.08fr] lg:items-center lg:gap-12 lg:pb-20 lg:pt-6">
         <motion.div
           {...reveal(0.12)}
-          className="relative order-1 -mb-6 -mt-6 lg:order-2 lg:mb-0 lg:mt-0"
+          className="relative order-1 mb-5 -mt-8 flex justify-center sm:mb-7 lg:order-2 lg:mb-0 lg:mt-0 lg:justify-end"
         >
-          <div className="relative flex min-h-[210px] items-start justify-center md:min-h-[420px] lg:min-h-[660px]">
+          <div className="relative flex w-full justify-center lg:justify-end">
             <img
-              src={educatorsImageUrl}
-              alt="WELS educators hero visual"
-              className="mx-auto w-full max-w-[980px] object-contain"
-              loading="lazy"
+              src={heroImageUrl}
+              alt="Early childhood educator playing with children"
+              className="w-full max-w-[390px] object-contain sm:max-w-[470px] md:max-w-[560px] lg:-mr-8 lg:max-w-[680px] xl:max-w-[760px]"
+              loading="eager"
             />
           </div>
         </motion.div>
 
         <motion.div {...reveal()} className="relative z-10 order-2 lg:order-1">
           <h1 className="mt-0 max-w-3xl text-5xl font-extrabold leading-[0.98] tracking-tight text-brand-ink md:text-7xl lg:mt-8">
-            Grow Educators.
-            <span className="gradient-text block">Grow Futures.</span>
+            <span className="block text-brand-blue">Nurture educators,</span>
+            <span className="block text-brand-pink">cultivate leaders</span>
+            <span className="block text-brand-pink">for tomorrow.</span>
           </h1>
 
           <p className="mt-6 max-w-2xl text-xl leading-8 text-slate-700">
-            WELS, a unified system that connects training, credentials, and
-            incentives to support educators and improve outcomes for children.
+            Efforts across Mississippi are strengthening the early childhood
+            profession and building a brighter future for children.
+          </p>
+
+          <p className="mt-6 max-w-xl text-base leading-7 text-slate-700">
+            <span className="font-bold text-brand-ink">
+              Proud supporter of the Children&apos;s Foundation of Mississippi
+            </span>{" "}
+            and the impactful work they do.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-4">
             <a
-              href="#features"
+              href="#summit"
               className="gradient-shift-button inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-bold text-white shadow-[0_18px_34px_rgba(122,95,195,0.18)]"
               style={{ backgroundImage: buttonGradient }}
             >
-              See the framework
+              Learn more
               <ArrowRight size={18} />
             </a>
             <a
@@ -249,10 +257,7 @@ export default function LandingPage() {
                 {...cardMotion}
                 className={`interactive-panel rounded-[32px] border p-7 shadow-[0_18px_44px_rgba(83,65,141,0.06)] backdrop-blur-sm ${cardBackgrounds[index]}`}
               >
-                <p className="text-sm font-bold uppercase tracking-[0.2em] text-brand-pink">
-                  Module
-                </p>
-                <h3 className="mt-4 text-3xl font-bold tracking-tight text-brand-ink">
+                <h3 className="text-3xl font-bold tracking-tight text-brand-ink">
                   {item.title}
                 </h3>
                 <p className="mt-5 text-base leading-8 text-slate-600">
@@ -264,7 +269,7 @@ export default function LandingPage() {
         </div>
       </Section>
 
-      <section className="mx-auto max-w-7xl px-6 pb-10">
+      <section id="summit" className="mx-auto max-w-7xl px-6 pb-10">
         <motion.div
           {...reveal()}
           className="wels-card grid gap-8 overflow-hidden p-8 md:grid-cols-[0.88fr_1.12fr] md:p-10"
@@ -275,9 +280,9 @@ export default function LandingPage() {
               Proud event sponsor of the Children&apos;s Foundation of Mississippi.
             </h2>
             <p className="mt-5 text-base leading-8 text-slate-600">
-              WELS is bringing a clear message to the summit: support educator
-              growth with connected systems for training, credentials, badges,
-              scholarship workflows, and data-informed decisions.
+              WELS is honored to support the people and organizations working
+              across Mississippi to strengthen early childhood education,
+              elevate educators, and create brighter futures for children.
             </p>
           </div>
           <div className="rounded-[30px] bg-brand-plum px-6 py-7 text-white">
@@ -291,9 +296,8 @@ export default function LandingPage() {
               5th Annual CFM Summit 2026
             </p>
             <p className="mt-6 text-base leading-8 text-white/78">
-              WELS helps state and regional partners strengthen the educator
-              workforce with one system built for visibility, progress, and
-              practical action.
+              A shared moment to celebrate progress, connect partners, and keep
+              building support around Mississippi&apos;s early childhood workforce.
             </p>
           </div>
         </motion.div>
@@ -352,7 +356,7 @@ export default function LandingPage() {
       </section>
 
       <footer className="mx-auto max-w-4xl px-6 pb-16 text-center">
-        <motion.div {...reveal()} className="space-y-3">
+        <motion.div {...reveal()} className="space-y-4">
           <a
             href="https://welsfoundation.org/"
             target="_blank"
@@ -361,11 +365,9 @@ export default function LandingPage() {
           >
             WELS Systems Foundation
           </a>
-          <p className="text-lg font-bold text-slate-600">
-            Proud event sponsor of CFM Summit 2026.
-          </p>
-          <p className="text-base text-slate-500">
-            Children&apos;s Foundation of Mississippi • 5th Annual Summit
+          <p className="mx-auto max-w-2xl text-xl font-bold leading-snug text-slate-600 md:text-2xl">
+            Proud supporter of the Children&apos;s Foundation of Mississippi and
+            the impactful work they do.
           </p>
         </motion.div>
       </footer>
