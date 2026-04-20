@@ -162,18 +162,12 @@ export default function LandingPage() {
 
           <div className="mt-8 flex flex-wrap gap-4">
             <a
-              href="#summit"
+              href="#contact"
               className="gradient-shift-button inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-bold text-white shadow-[0_18px_34px_rgba(122,95,195,0.18)]"
               style={{ backgroundImage: buttonGradient }}
             >
-              Learn more
-              <ArrowRight size={18} />
-            </a>
-            <a
-              href="#contact"
-              className="inline-flex items-center gap-2 rounded-full border border-brand-pink/22 bg-white/80 px-6 py-3 text-sm font-bold text-brand-ink transition hover:border-brand-pink hover:text-brand-pink"
-            >
               Talk with WELS
+              <ArrowRight size={18} />
             </a>
           </div>
         </motion.div>
