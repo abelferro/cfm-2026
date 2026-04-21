@@ -268,11 +268,11 @@ export default function LandingPage() {
           <div>
             
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-brand-ink md:text-4xl">
-              Proud event sponsor of the Children&apos;s Foundation of Mississippi.
+              Proud sponsor of the Children&apos;s Foundation of Mississippi.
             </h2>
             <p className="mt-5 text-base leading-8 text-slate-600">
               WELS is honored to support people and organizations working
-              across Mississippi to strengthen early childhood education,
+              across Mississippi that strengthen early childhood education,
               elevate educators, and create brighter futures for children.
             </p>
           </div>
